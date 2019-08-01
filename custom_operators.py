@@ -49,7 +49,7 @@ exp = Operator(('exp', '?x', '?y'),
                 (lambda x, y: pow(x, y), '?xv', '?yv')])
 
 def check_prime(x):
-    if x = 2:
+    if x == 2:
         return True
     else:
         for i in range(2, x):
@@ -58,15 +58,28 @@ def check_prime(x):
 
     return True
 
+
 def prime_factorization(x):
     num_after_factorized = x
     cur_prime = 2
     factorization_list = []
 
-    #  for num in range(cur_prime, x+1):
-        #  if         
+    for num in range(cur_prime, x+1):
+        while check_prime(num) and num_after_factorized % num == 0:
+            factorization_list.append(num)
+            num_after_factorized /= num
 
-#  def find_common_base(x, y):
+    return factorization_list
+
+
+#  import pdb; pdb.set_trace()
+
+def find_common_base(x, y):
+    smaller = min(x, y)
+    larger = min(x, y)
+    
+    factor_list_small = prime_factorization(smaller)
+    factor_list_large = prime_factorization(larger)
 #  common_base_rule = Operator()
 
 
