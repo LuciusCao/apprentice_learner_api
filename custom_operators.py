@@ -41,9 +41,20 @@ FO Operator Structure: Operator(<header>, [<conditions>...], [<effects>...])
 
 vvvvvvvvvvvvvvvvvvvv WRITE YOUR OPERATORS BELOW vvvvvvvvvvvvvvvvvvvvvvv '''
 
+#  def is_str_number(s):
+    #  if not isinstance(s, str):
+        #  return False
+    #  try:
+        #  float(s)
+        #  return True
+    #  except ValueError:
+        #  return False
+
 exp = Operator(('exp', '?x', '?y'),
                [(('value', '?x'), '?xv'), 
                 (('value', '?y'), '?yv'),
+                #  (is_str_number, '?xv'),
+                #  (is_str_number, '?yv'),
                 (lambda x, y: x <= y, '?x', '?y')], 
                [('value', ('exp', ('value', '?x'), ('value', '?y'))),
                 (lambda x, y: str(pow(x, y)), '?xv', '?yv')])
@@ -86,9 +97,9 @@ def if_common_base_exists(x, y):
     factor_list_large = prime_factorization(larger)
 
     factor_set_small = set(factor_list_small)
-    factor_set_learge = set(factor_list_large)
+    factor_set_large = set(factor_list_large)
 
-    if not factor_set_small == factor_set_learge:
+    if not factor_set_small == factor_set_large:
         return 'NO'
 
     from collections import Counter
@@ -141,39 +152,59 @@ def find_common_base(x, y):
     for f in common_base_factor:
         common_base *= f
 
-    return common_base
+    return str(common_base)
     
 common_base_exists = Operator(('common_base_exists', '?x', '?y'), 
                               [(('value', '?x'), '?xv'),
-                               (('value', '?y'), '?y')],
+                               (('value', '?y'), '?yv'),
+                               #  ('is_str_number', '?xv'),
+                               #  ('is_str_number', '?yv'),
+                               (lambda x, y: x <= y, '?x', '?y')],
                               [(('value', ('common_base_exists', ('value', '?x'), ('value', '?y')))),
                                (if_common_base_exists, '?xv', '?yv')])
 
 common_base = Operator(('common_base', '?x', '?y'),
                        [(('value', '?x'), '?xv'),
-                        (('value', '?y'), '?y')],
+                        (('value', '?y'), '?yv'),
+                        #  ('is_str_number', '?xv'),
+                        #  ('is_str_number', '?yv'),
+                        (lambda x, y: x <= y, '?x', '?y')],
                        [(('value', ('common_base', ('value', '?x'), ('value', '?y')))),
                         (find_common_base, '?xv', '?yv')])
 
 
-def find_exp(number, base):
-    number = int(number)
+def find_exp(original_base, base):
+    original_base = int(original_base)
     base = int(base)
+    number = original_base
 
-    result = -1
+    if original_base < base:
+        raise Exception('original_base must be gte the new base')
+    elif base == 1:
+        raise Exception('base cannot be 1')
+    elif original_base < 0 or base < 0:
+        raise Exception('both original_base and base need to be larger than 0')
+
     exp = 0
-    while result != 1:
+    while number != 1:
         number /= base
-        exp += 1
+        if not number.is_integer():
+            raise Exception('invalid number&base combination')
+        else:
+            exp += 1
 
     return str(exp)
 
 find_exp = Operator(('find_exp', '?x', '?y'),
                     [(('value', '?x'), '?xv'),
-                     (('value', '?y'), '?y')],
+                     (('value', '?y'), '?yv'),
+                     #  ('is_str_number', '?xv'),
+                     #  ('is_str_number', '?yv'),
+                     (lambda x, y: x <= y, '?x', '?y')],
                     [(('value', ('find_exp', ('value', '?x'), ('value', '?y')))),
                      (find_exp, '?xv', '?yv')])
 
+#  import pdb; pdb.set_trace()
 
 # ^^^^^^^^^^^^^^ DEFINE ALL YOUR OPERATORS ABOVE THIS LINE ^^^^^^^^^^^^^^^^
 for name,op in locals().copy().items():

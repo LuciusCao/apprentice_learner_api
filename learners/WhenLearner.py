@@ -280,11 +280,11 @@ class DecisionTree(DecisionTreeClassifier):
     #     super(DecisionTree,self).fit(X,y)
 
     def predict(self, X):
-        print("MOOP", X)
+        #  print("MOOP", X)
         return super(DecisionTree, self).predict(X)
 
     def skill_info(self, examples, feature_names=None):
-        print("SLOOP", examples)
+        #  print("SLOOP", examples)
         tree = self
         tree_ = tree.tree_
         print("feature_names", feature_names)

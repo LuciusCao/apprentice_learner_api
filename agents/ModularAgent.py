@@ -171,6 +171,7 @@ class ModularAgent(BaseAgent):
     def request(self, state, add_skill_info=False):  # -> Returns sai
         state = StateMultiView("object", state)
         state = self.planner.apply_featureset(state)
+        #  pprint(state.get_view('flat_ungrounded'))
         rhs_list = self.which_learner.sort_by_heuristic(self.rhs_list, state)
 
         explanations = self.applicable_explanations(
@@ -290,6 +291,8 @@ class ModularAgent(BaseAgent):
         explanations, nonmatching_explanations = self.where_matches(
                                                  explanations,
                                                  state_featurized)
+
+        pprint("\n".join([str(exp.rhs.input_rule) for exp in explanations]))
 
         if(len(explanations) == 0):
 
