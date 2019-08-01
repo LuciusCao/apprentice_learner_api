@@ -41,7 +41,33 @@ FO Operator Structure: Operator(<header>, [<conditions>...], [<effects>...])
 
 vvvvvvvvvvvvvvvvvvvv WRITE YOUR OPERATORS BELOW vvvvvvvvvvvvvvvvvvvvvvv '''
 
+exp = Operator(('exp', '?x', '?y'),
+               [(('value', '?x'), '?xv'), 
+                (('value', '?y'), '?yv'),
+                (lambda x, y: x <= y, '?x', '?y')], 
+               [('value', ('exp', ('value', '?x'), ('value', '?y'))),
+                (lambda x, y: pow(x, y), '?xv', '?yv')])
 
+def check_prime(x):
+    if x = 2:
+        return True
+    else:
+        for i in range(2, x):
+            if x % i == 0:
+                return False
+
+    return True
+
+def prime_factorization(x):
+    num_after_factorized = x
+    cur_prime = 2
+    factorization_list = []
+
+    #  for num in range(cur_prime, x+1):
+        #  if         
+
+#  def find_common_base(x, y):
+#  common_base_rule = Operator()
 
 
 
