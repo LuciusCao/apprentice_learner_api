@@ -589,8 +589,11 @@ def replace_vars(arg, i=0):
 def apply_operators(ele, operators, knowledge_base,epsilon):
     operator_output = None
     for operator in operators:
-        effect = list(operator.effects)[0]
-        pattern = effect[0][1]
+        try:
+            effect = list(operator.effects)[0]
+            pattern = effect[0][1]
+        except:
+            import pdb; pdb.set_trace()
         u_mapping = unify(pattern, ground(ele), {}) #Returns a mapping to name the values in the expression
         
         if(u_mapping):
@@ -652,7 +655,7 @@ class FoPlannerModule(BasePlanner):
         else:
             knowledge_base = state.get_view("func_knowledge_base")            
         
-        pprint(knowledge_base.facts)
+        #  pprint(knowledge_base.facts)
         for attr,input_val in sai.inputs.items():
             #Danny: This populates a list of explanations found earlier in How search that work"
             possible = []

@@ -41,15 +41,25 @@ FO Operator Structure: Operator(<header>, [<conditions>...], [<effects>...])
 
 vvvvvvvvvvvvvvvvvvvv WRITE YOUR OPERATORS BELOW vvvvvvvvvvvvvvvvvvvvvvv '''
 
+def exp_op(x, y):
+    x = int(x)
+    y = int(y)
+
+    if x > 1000 or y > 1000:
+        raise Exception('Too Hard for a student to solve')
+
+    return str(pow(x, y))
 
 exp = Operator(('exp', '?x', '?y'),
                [(('value', '?x'), '?xv'), 
                 (('value', '?y'), '?yv')],
                [(('value', ('exp', ('value', '?x'), ('value', '?y'))),
-                (lambda x, y: str(pow(int(x), int(y))), '?xv', '?yv'))])
+                (exp_op, '?xv', '?yv'))])
 
 
 def check_prime(x):
+    if x >= 1000:
+        raise Exception('Too Hard for a student to solve')
     x = int(x)
     if x == 2:
         return True
@@ -63,6 +73,10 @@ def check_prime(x):
 
 def prime_factorization(x):
     x = int(x)
+
+    if x >= 10000:
+        raise Exception('Too Hard for a student to solve')
+
     num_after_factorized = x
     cur_prime = 2
     factorization_list = []
