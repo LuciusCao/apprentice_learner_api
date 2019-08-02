@@ -652,7 +652,7 @@ class FoPlannerModule(BasePlanner):
         else:
             knowledge_base = state.get_view("func_knowledge_base")            
         
-        #  pprint(knowledge_base.facts)
+        pprint(knowledge_base.facts)
         for attr,input_val in sai.inputs.items():
             #Danny: This populates a list of explanations found earlier in How search that work"
             possible = []

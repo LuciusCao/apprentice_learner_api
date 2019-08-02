@@ -41,23 +41,12 @@ FO Operator Structure: Operator(<header>, [<conditions>...], [<effects>...])
 
 vvvvvvvvvvvvvvvvvvvv WRITE YOUR OPERATORS BELOW vvvvvvvvvvvvvvvvvvvvvvv '''
 
-#  def is_str_number(s):
-    #  if not isinstance(s, str):
-        #  return False
-    #  try:
-        #  float(s)
-        #  return True
-    #  except ValueError:
-        #  return False
 
 exp = Operator(('exp', '?x', '?y'),
                [(('value', '?x'), '?xv'), 
-                (('value', '?y'), '?yv'),
-                #  (is_str_number, '?xv'),
-                #  (is_str_number, '?yv'),
-                (lambda x, y: x <= y, '?x', '?y')], 
-               [('value', ('exp', ('value', '?x'), ('value', '?y'))),
-                (lambda x, y: str(pow(x, y)), '?xv', '?yv')])
+                (('value', '?y'), '?yv')],
+               [(('value', ('exp', ('value', '?x'), ('value', '?y'))),
+                (lambda x, y: str(pow(int(x), int(y))), '?xv', '?yv'))])
 
 
 def check_prime(x):
@@ -78,7 +67,7 @@ def prime_factorization(x):
     cur_prime = 2
     factorization_list = []
 
-    for num in range(cur_prime, x+1):
+    for num in range(cur_prime, num_after_factorized):
         while check_prime(num) and num_after_factorized % num == 0:
             factorization_list.append(num)
             num_after_factorized /= num
@@ -100,7 +89,7 @@ def if_common_base_exists(x, y):
     factor_set_large = set(factor_list_large)
 
     if not factor_set_small == factor_set_large:
-        return 'NO'
+        return '2'
 
     from collections import Counter
     small_counter = Counter(factor_list_small)
@@ -112,9 +101,9 @@ def if_common_base_exists(x, y):
 
     scale_set = set(scale)
     if len(scale_set) == 1:
-        return 'YES'
+        return '1'
     else:
-        return 'NO'
+        return '2'
 
 
 def find_common_base(x, y):
